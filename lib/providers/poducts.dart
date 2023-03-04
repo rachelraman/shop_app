@@ -49,6 +49,10 @@ class Products with ChangeNotifier {
     return _items.where((prod) => prod.isFavorite).toList();
   }
 
+  Product findById(String id) {
+    return _items.firstWhere((prod) => prod.id == id);
+  }
+
   // void showfavoriteOnly (){
   //   _showfavoriteOnly = true;
   //   notifyListeners();
@@ -67,7 +71,19 @@ class Products with ChangeNotifier {
       price: product.price,
     );
     _items.add(newProduct);
-   // _items.insert(0, newProduct); // to add at begining of the list
+    // _items.insert(0, newProduct); // to add at begining of the list
+    notifyListeners();
+  }
+
+  void updateproduct(String id, Product newProduct) {
+    final prodIndex = _items.indexWhere((element) => element.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProduct;
+      notifyListeners();
+    }
+  }
+  void deleteProduct(String id){
+    _items.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 }
